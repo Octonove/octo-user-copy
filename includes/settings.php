@@ -153,9 +153,7 @@ class OctoUC_Settings {
                                            value="<?php echo esc_url($emitter_url); ?>" 
                                            class="regular-text" 
                                            placeholder="https://ejemplo.com" />
-                                    <button type="button" class="button" id="test-connection">
-                                        <?php _e('Probar conexión', 'octo-user-copy'); ?>
-                                    </button>
+                                  
                                     <p class="description">
                                         <?php _e('URL completa del sitio WordPress emisor (sin barra al final).', 'octo-user-copy'); ?>
                                     </p>
@@ -231,18 +229,7 @@ class OctoUC_Settings {
                         
                         <?php submit_button(); ?>
                     </form>
-                    
-                    <?php if ($mode === 'receiver'): ?>
-                        <div class="octo-uc-actions">
-                            <h3><?php _e('Acciones', 'octo-user-copy'); ?></h3>
-                            <button type="button" class="button button-primary" id="force-sync">
-                                <?php _e('Forzar sincronización ahora', 'octo-user-copy'); ?>
-                            </button>
-                            <span class="spinner"></span>
-                            <div id="sync-message"></div>
-                        </div>
-                    <?php endif; ?>
-                    
+                 
                     <?php if ($mode === 'emitter' && !empty($api_key)): ?>
                         <div class="octo-uc-endpoints">
                             <h3><?php _e('Endpoints disponibles', 'octo-user-copy'); ?></h3>
