@@ -398,21 +398,22 @@ class OctoUC_Settings {
                 'testing' => __('Probando conexión...', 'octo-user-copy'),
                 'success' => __('¡Éxito!', 'octo-user-copy'),
                 'error' => __('Error:', 'octo-user-copy'),
-                'generating' => __('Generando...', 'octo-user-copy')
+                'generating' => __('Generando...', 'octo-user-copy'),
+                'copy' => __('Copiar', 'octo-user-copy')
             ]
         ]);
     }
     
     public function ajax_force_sync() {
-        // Verificar nonce - IMPORTANTE: No usar die() si falla 
+        // Verificar nonce
         if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'octo-uc-ajax')) { 
             wp_send_json_error(['message' => __('Error de seguridad', 'octo-user-copy')]);
-            wp_die();
+            // NO usar wp_die() - wp_send_json_error ya termina la ejecución
         }
         
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('Sin permisos suficientes', 'octo-user-copy')]);
-            wp_die();
+            // NO usar wp_die()
         }
         
         // Log del inicio
@@ -434,7 +435,7 @@ class OctoUC_Settings {
                 wp_send_json_error([
                     'message' => __('Error interno: respuesta inválida del sincronizador', 'octo-user-copy')
                 ]);
-                wp_die();
+                // NO usar wp_die()
             }
             
             // Verificar el resultado
@@ -463,11 +464,12 @@ class OctoUC_Settings {
                     wp_send_json_error([
                         'message' => __('Error al procesar la respuesta', 'octo-user-copy')
                     ]);
-                    wp_die();
+                    // NO usar wp_die()
                 }
                 
                 // Enviar respuesta exitosa
                 wp_send_json_success($response_data);
+                // NO usar wp_die() - wp_send_json_success ya termina la ejecución
                 
             } else {
                 // Error
@@ -475,6 +477,7 @@ class OctoUC_Settings {
                 wp_send_json_error([
                     'message' => $error_message
                 ]);
+                // NO usar wp_die()
             }
             
         } catch (Exception $e) {
@@ -486,23 +489,20 @@ class OctoUC_Settings {
             wp_send_json_error([
                 'message' => sprintf(__('Error crítico: %s', 'octo-user-copy'), esc_html($e->getMessage()))
             ]);
+            // NO usar wp_die()
         }
-        
-        wp_die(); // Importante: siempre terminar con wp_die()
     }
 
     public function ajax_test_connection() {
         // Verificar nonce
-            error_log("hola pitodo");
         if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'octo-uc-ajax')) {
-        
             wp_send_json_error(['message' => __('Error de seguridad', 'octo-user-copy')]);
-            wp_die();
+            // NO usar wp_die()
         }
         
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('Sin permisos suficientes', 'octo-user-copy')]);
-            wp_die();
+            // NO usar wp_die()
         }
         
         $emitter_url = get_option('octo_uc_emitter_url');
@@ -510,12 +510,12 @@ class OctoUC_Settings {
         
         if (!$emitter_url) {
             wp_send_json_error(['message' => __('URL del emisor no configurada', 'octo-user-copy')]);
-            wp_die();
+            // NO usar wp_die()
         }
         
         if (!$api_key) {
             wp_send_json_error(['message' => __('Clave API no configurada', 'octo-user-copy')]);
-            wp_die();
+            // NO usar wp_die()
         }
         
         // Limpiar la URL (quitar barras finales y espacios)
@@ -566,7 +566,8 @@ class OctoUC_Settings {
                 } else {
                     wp_send_json_error(['message' => sprintf(__('Error de conexión: %s', 'octo-user-copy'), $error_message)]);
                 }
-                wp_die();
+                // NO usar wp_die()
+                return;
             }
             
             // Obtener código de respuesta
@@ -610,26 +611,25 @@ class OctoUC_Settings {
                 'message' => sprintf(__('Error crítico: %s', 'octo-user-copy'), $e->getMessage())
             ]);
         }
-        
-        wp_die(); // Importante: siempre terminar con wp_die()
+        // NO usar wp_die()
     }
     
     public function ajax_generate_api_key() {
         // Verificar nonce
         if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'octo-uc-ajax')) {
             wp_send_json_error(['message' => __('Error de seguridad', 'octo-user-copy')]);
-            wp_die();
+            // NO usar wp_die()
         }
         
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => __('Sin permisos suficientes', 'octo-user-copy')]);
-            wp_die();
+            // NO usar wp_die()
         }
         
         $new_key = wp_generate_password(32, false);
         update_option('octo_uc_api_key', $new_key);
         
         wp_send_json_success(['key' => $new_key]);
-        wp_die(); // Importante: siempre terminar con wp_die()
+        // NO usar wp_die() - wp_send_json_success ya termina la ejecución
     }
 }

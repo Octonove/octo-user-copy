@@ -38,30 +38,30 @@ jQuery(document).ready(function($) {
             success: function(response) {
                 console.log('Respuesta recibida:', response);
                 
-                if (response.success) {
-                    var message = response.data.message || octoUC.strings.success;
-                    $message.html('<span style="color: #46b450;">' + message + '</span>');
+                // if (response.success) {
+                //     var message = response.data.message || octoUC.strings.success;
+                //     $message.html('<span style="color: #46b450;">' + message + '</span>');
                     
-                    // Mostrar estadísticas si están disponibles
-                    if (response.data.stats) {
-                        var stats = response.data.stats;
-                        var statsMsg = '<br><small>';
-                        if (stats.created) statsMsg += 'Creados: ' + stats.created + ' ';
-                        if (stats.updated) statsMsg += 'Actualizados: ' + stats.updated + ' ';
-                        if (stats.skipped) statsMsg += 'Omitidos: ' + stats.skipped + ' ';
-                        if (stats.errors) statsMsg += 'Errores: ' + stats.errors;
-                        statsMsg += '</small>';
-                        $message.append(statsMsg);
-                    }
+                //     // Mostrar estadísticas si están disponibles
+                //     if (response.data.stats) {
+                //         var stats = response.data.stats;
+                //         var statsMsg = '<br><small>';
+                //         if (stats.created) statsMsg += 'Creados: ' + stats.created + ' ';
+                //         if (stats.updated) statsMsg += 'Actualizados: ' + stats.updated + ' ';
+                //         if (stats.skipped) statsMsg += 'Omitidos: ' + stats.skipped + ' ';
+                //         if (stats.errors) statsMsg += 'Errores: ' + stats.errors;
+                //         statsMsg += '</small>';
+                //         $message.append(statsMsg);
+                //     }
                     
-                    // Recargar la página después de 3 segundos para mostrar los nuevos logs
-                    setTimeout(function() {
-                        location.reload();
-                    }, 3000);
-                } else {
-                    var errorMsg = (response.data && response.data.message) ? response.data.message : 'Error desconocido';
-                    $message.html('<span style="color: #dc3232;">' + octoUC.strings.error + ' ' + errorMsg + '</span>');
-                }
+                //     // Recargar la página después de 3 segundos para mostrar los nuevos logs
+                //     setTimeout(function() {
+                //         location.reload();
+                //     }, 3000);
+                // } else {
+                //     var errorMsg = (response.data && response.data.message) ? response.data.message : 'Error desconocido';
+                //     $message.html('<span style="color: #dc3232;">' + octoUC.strings.error + ' ' + errorMsg + '</span>');
+                // }
             },
             error: function(xhr, status, error) {
                 console.error('Error AJAX:', {
